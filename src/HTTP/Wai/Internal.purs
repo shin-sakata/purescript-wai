@@ -3,7 +3,6 @@ module Network.Wai.Internal where
 import Prelude
 
 import Data.Array (intercalate)
-import Data.Maybe (Maybe)
 import Data.Tuple (Tuple(..))
 import Effect.Aff (Aff)
 import Network.HTTP.Types as H
@@ -46,17 +45,6 @@ data Request = Request {
   -- | Parsed query string information.
   ,  queryString          :: H.Query
   ,  body          :: Readable ()
-  -- | The size of the request body. In the case of a chunked request body,
-  -- this may be unknown.
-  ,  bodyLength     :: RequestBodyLength
-  -- | The value of the Host header in a HTTP request.
-  ,  headerHost     :: Maybe String
-  -- | The value of the Range header in a HTTP request.
-  ,  headerRange   :: Maybe String
-  -- | The value of the Referer header in a HTTP request.ce 3.2.0
-  ,  headerReferer   :: Maybe String
-  -- | The value of the User-Agent header in a HTTP request.
-  ,  headerUserAgent :: Maybe String
   }
 
 
@@ -76,9 +64,6 @@ instance showRequest :: Show Request where
                 , (Tuple "pathInfo" $ show req.pathInfo)
                 , (Tuple "queryString" $ show req.queryString)
                 , (Tuple "requestBody" "<Readable>")
-                , (Tuple "requestBodyLength" $ show req.bodyLength)
-                , (Tuple "requestHeaderHost" $ show req.headerHost)
-                , (Tuple "requestHeaderRange" $ show req.headerRange)
                 ]
 
 
@@ -87,14 +72,6 @@ data Response
     | ResponseString H.Status H.ResponseHeaders String
     | ResponseStream H.Status H.ResponseHeaders (Readable ())
     | ResponseRaw (Aff Buffer -> (Buffer -> Aff Unit) -> Aff Unit) Response
-
--- | The size of the request body. In the case of chunked bodies, the size will
--- not be known.
-data RequestBodyLength = ChunkedBody | KnownLength Int
-
-instance showRequestBodyLenght :: Show RequestBodyLength where
-    show ChunkedBody = "<ChunkedBody>"
-    show (KnownLength n) =  "KnownLength " <> show n
 
 -- | A special datatype to indicate that the WAI handler has received the
 -- response. This is to avoid the need for Rank2Types in the definition of

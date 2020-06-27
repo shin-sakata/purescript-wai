@@ -37,8 +37,6 @@ data Request = Request {
   ,  rawQueryString       :: String
   -- | A list of headers (a pair of key and value) in an HTTP request.
   ,  requestHeaders       :: H.RequestHeaders
-  -- | The client\'s host information.
-  ,  remoteHost           :: String
   -- | Path info in individual pieces - the URL without a hostname/port and
   -- without a query string, split on forward slashes.
   ,  pathInfo             :: Array String

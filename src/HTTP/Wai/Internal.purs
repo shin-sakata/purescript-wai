@@ -58,7 +58,6 @@ instance showRequest :: Show Request where
                 , (Tuple "rawPathInfo" $ show req.rawPathInfo)
                 , (Tuple "rawQueryString" $ show req.rawQueryString)
                 , (Tuple "requestHeaders" $ show req.requestHeaders)
-                , (Tuple "remoteHost" $ show req.remoteHost)
                 , (Tuple "pathInfo" $ show req.pathInfo)
                 , (Tuple "queryString" $ show req.queryString)
                 , (Tuple "requestBody" "<Readable>")

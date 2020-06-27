@@ -2,7 +2,7 @@ module Network.Wai.Internal where
 
 import Prelude
 
-import Data.List.Lazy (List, intercalate)
+import Data.Array (intercalate)
 import Data.Maybe (Maybe)
 import Data.Tuple (Tuple(..))
 import Effect.Aff (Aff)
@@ -42,7 +42,7 @@ data Request = Request {
   ,  remoteHost           :: String
   -- | Path info in individual pieces - the URL without a hostname/port and
   -- without a query string, split on forward slashes.
-  ,  pathInfo             :: List String
+  ,  pathInfo             :: Array String
   -- | Parsed query string information.
   ,  queryString          :: H.Query
   ,  body          :: Readable ()
